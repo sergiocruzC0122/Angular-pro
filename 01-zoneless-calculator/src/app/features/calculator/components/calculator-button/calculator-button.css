@@ -17,3 +17,7 @@
 .is-command {
   background-color: #4338ca;
 }
+
+.is-pressed {
+  background-color: #4e40ee;
+}

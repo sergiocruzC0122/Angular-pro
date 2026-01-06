@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, input, output, signal, viewChild } from '@angular/core';
 
 @Component({
   selector: 'calculator-button',
@@ -7,10 +7,18 @@ import { ChangeDetectionStrategy, Component, HostBinding, input } from '@angular
   styleUrls: ['./calculator-button.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'w-1/4 border-r border-b border-indigo-400'
+    'class': 'w-1/4 border-r border-b border-indigo-400',
+    '[class.w-2/4]': 'isDobleSize()',
+    '[class.w-1/4]': '!isDobleSize()',
   }
 })
 export class CalculatorButton { 
+
+  public isPressed = signal(false);
+
+  public onClick = output<string>();
+  public contentValue = viewChild<ElementRef<HTMLButtonElement>>('buttonContent');
+
   public isCommand = input(false, {
     transform: (value: boolean | string) =>
       typeof value === 'string' ? value === '' : value
@@ -21,7 +29,26 @@ export class CalculatorButton {
       typeof value === 'string' ? value === '' : value
   });
 
-  @HostBinding('class.w-2/4') get commandStyle() {
-    return this.isDobleSize();
+  handleClick() {
+    if (!this.contentValue()?.nativeElement) {
+      return;
+    }
+    const content = this.contentValue()!.nativeElement.innerText;
+    this.onClick.emit(content.trim());
+  }
+
+  public keyboardPressedStyle ( key: string ) {
+    if (!this.contentValue()) return;
+
+    const content = this.contentValue()!.nativeElement.innerText;
+
+    if (content !== key) return;
+
+
+    this.isPressed.set(true);
+
+    setTimeout(() => {
+      this.isPressed.set(false);
+    }, 100);
   }
 }
