@@ -22,12 +22,12 @@ export class CalculatorService {
 
     // =
     if (value === '=') {
-      this.calculateResult();2
+      this.calculateResult();
       return;
     }
 
     // Limpiar resultados
-    if (value === 'Delete' || value === 'C') {
+    if (value === 'C') {
       this.resultText.set('0');
       this.subResultText.set('0');
       this.lastOperator.set('+');
@@ -54,8 +54,6 @@ export class CalculatorService {
 
     // Aplicar operador
     if (operators.includes(value)) {
-      // this.calculateResult();
-
       this.lastOperator.set(value);
       this.subResultText.set(this.resultText());
       this.resultText.set('0');
