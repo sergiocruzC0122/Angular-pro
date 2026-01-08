@@ -7,4 +7,4 @@ import { Calculator } from '../../components/calculator/calculator';
   templateUrl: './calculater-view.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CalculaterView {}
+export default class CalculaterView {}
