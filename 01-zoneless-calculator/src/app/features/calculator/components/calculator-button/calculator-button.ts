@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, ElementRef, input, output, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, Host, HostBinding, input, output, signal, viewChild } from '@angular/core';
 
 @Component({
   selector: 'calculator-button',
   imports: [],
   templateUrl: './calculator-button.html',
   styleUrls: ['./calculator-button.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'class': 'w-1/4 border-r border-b border-indigo-400',
     '[class.w-2/4]': 'isDobleSize()',
@@ -28,6 +27,14 @@ export class CalculatorButton {
     transform: (value: boolean | string) =>
       typeof value === 'string' ? value === '' : value
   });
+
+  @HostBinding('class.is-command') get isCommandClass() {
+    return this.isCommand();
+  }
+
+  @HostBinding('class.is-pressed') get isPressedClass() {
+    return this.isPressed();
+  }
 
   handleClick() {
     if (!this.contentValue()?.nativeElement) {
