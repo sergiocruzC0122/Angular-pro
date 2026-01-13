@@ -64,7 +64,7 @@ describe('CalculatorButton', () => {
         buttonElement?.click();
 
         expect(spy).toHaveBeenCalledWith('9');
-    });
+    }); 
 
 
     it('should set isPressed to true and then false when keyboardPressedStyle is called with matching key', async (done) => {
